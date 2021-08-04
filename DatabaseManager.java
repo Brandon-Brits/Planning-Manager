@@ -39,5 +39,6 @@ public class DatabaseManager
 		String query = "INSERT INTO TABLE * FROM tblCurrentProject WHERE Sales Order = " +num;
 		System.out.println(query);
 		statement.executeUpdate(query);
-}
+     		}
+
 }
