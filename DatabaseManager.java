@@ -1,10 +1,8 @@
 import java.io.File;
 import java.sql.*;
-import java.time.LocalDate;
+import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DatabaseManager
 {
@@ -25,9 +23,9 @@ public class DatabaseManager
 	
 //Create a new Sales Order
 
-	public void Insert(String sonum, String Pump, String Customer, String Suction, String Delivery, String Chamber, String BRGDE, String BRGNDE) throws SQLException{
+	public void Insert(String sonum, String Pump, String Customer, String Suction, String Delivery, String Chamber, String BRGDE, String BRGNDE, String BalCH, String Shaft, String Simp) throws SQLException{
 		Statement statement = connect.createStatement();
-		String query = "Insert Into Table(SalesOrder, Pump, Customer, SuctionCover, DeliveryCover, Chamber, BearingHousingDE, BearingHousingNDE)\n" + "Values " + "('" + sonum + "', '" + Pump + "', '" + Customer + "', '" + Suction + "', '" + Delivery + "', '" + Chamber + "', '" + BRGDE + "', '" + BRGNDE + "')";
+		String query = "Insert Into Table(SalesOrder, Pump, Customer, SuctionCover, DeliveryCover, Chamber, BearingHousingDE, BearingHousingNDE, BalanceChamber, Shaft, SuctionImpeller)\n" + "Values " + "('" + sonum + "', '" + Pump + "', '" + Customer + "', '" + Suction + "', '" + Delivery + "', '" + Chamber + "', '" + BRGDE + "', '" + BRGNDE + "', '" + BalCH + "', '" + Shaft + "', '" + Simp + "')";
 
 		System.out.println(query);
 		statement.executeUpdate(query);
@@ -40,5 +38,12 @@ public class DatabaseManager
 		System.out.println(query);
 		statement.executeUpdate(query);
      		}
+	
+	public void Update(String column, String update, int PID) throws SQLException{
+		Statement statement = connect.createStatement();
+		String  query = "UPDATE tblCurrentProject Set "+column+" = '"+update+"' WHERE SalesOrder = "+PID+";";
+		System.out.println(query);
+		statement.executeUpdate(query);
+	}
 
 }

@@ -1,8 +1,5 @@
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import javax.swing.*;
-import java.time.LocalDate;
 
 public class PlanningMain {
 	public static void main(String[] args) throws FileNotFoundException{
@@ -38,7 +35,7 @@ public class PlanningMain {
                                 			String BalCH = JOptionPane.showInputDialog("Enter the quantity needed:\n Balance Chamber: ");
                                 			String Shaft = JOptionPane.showInputDialog("Enter the quantity needed:\n Pump Shaft: ");
                                 			String Simp = JOptionPane.showInputDialog("Enter the quantity needed:\n Suction Impeller: ");
-                                			dblink.Insert(sonum, pump, customer, Suction, Delivery, Chamber, BRGDE, BRGNDE);
+                                			dblink.Insert(sonum, pump, customer, Suction, Delivery, Chamber, BRGDE, BRGNDE, BalCH, Shaft, Simp);
                                 			System.out.println("Sales Order Added! Sales Order = " + sonum);
 						}
 					
