@@ -1,49 +1,65 @@
-import java.io.File;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.*;
 import java.sql.*;
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.awt.event.*;
 
-public class DatabaseManager
-{
-	private Connection connect;
-	String filename = (new File("PlanningManager.accdp")).getAbsolutePath();
-	private Object UpcomingSupply;
-//Connect To DB
-	public DatabaseManager(){
-		try{
-//Connection
-			connect = DriverManager.getConnection("jbdc:ucanaccess://" + filename);
-			System.out.println("Connected.");
-			}
-		catch (SQLException e){
-			System.out.println("Could Not Connect: " + e);
-			}
-		}
+public class SearchResult implements ActionListener{
+	JFrame frame, frame1;
+	JTextField textbox;
+	JLabel label;
+	Jbutton button;
+	JPanel panel;
+	static JTable table;
 	
-//Create a new Sales Order
-
-	public void Insert(String sonum, String Pump, String Customer, String Suction, String Delivery, String Chamber, String BRGDE, String BRGNDE, String BalCH, String Shaft, String Simp) throws SQLException{
-		Statement statement = connect.createStatement();
-		String query = "Insert Into Table(SalesOrder, Pump, Customer, SuctionCover, DeliveryCover, Chamber, BearingHousingDE, BearingHousingNDE, BalanceChamber, Shaft, SuctionImpeller)\n" + "Values " + "('" + sonum + "', '" + Pump + "', '" + Customer + "', '" + Suction + "', '" + Delivery + "', '" + Chamber + "', '" + BRGDE + "', '" + BRGNDE + "', '" + BalCH + "', '" + Shaft + "', '" + Simp + "')";
-
-		System.out.println(query);
-		statement.executeUpdate(query);
-
-		}
-	public void Finalize(String SalesOrder) throws SQLException{
-		String num = SalesOrder;
-		Statement statement = connect.createStatement();
-		String query = "INSERT INTO TABLE * FROM tblCurrentProject WHERE Sales Order = " +num;
-		System.out.println(query);
-		statement.executeUpdate(query);
-     		}
+	String driverName = "com.mysql.jdbc.Driver";
+	String url = "jdbc:mysql://localhost:3306/record";
+	String userName = "root";
+	String password = "root";
+	String[] columnNames = {"Sales Order", "Pump", "Customer", "Date"};
 	
-	public void Update(String column, String update, int PID) throws SQLException{
-		Statement statement = connect.createStatement();
-		String  query = "UPDATE tblCurrentProject Set "+column+" = '"+update+"' WHERE SalesOrder = "+PID+";";
-		System.out.println(query);
-		statement.executeUpdate(query);
+	public void createUI()
+	{
+		frame = new JFrame("Sales Order Report");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(null);
+		textbox = new JTextField();
+		textbox.setBounds(120,30,150,20);
+		label = new JLabel("Enter Sales Order Number");
+		label.setBounds(10, 30, 100, 20);
+		button = new JButton("search");
+		button.setBounds(120,130,150,20);
+		button.addActionListener(this);
+		
+		
+		frame.add(textbox);
+		frame.add(label);
+		frame.add(button);
+		frame.setVisible(true);
+		frame.setSize(500, 400);
 	}
-
+	
+	public void actionPerformed(ActionEvent ae) 
+	{
+		button = (JButton)ae.getSource();
+		System.out.println("Showing Table Data......");
+		ShowTableData();
+	}
+	
+	public void showTableData()
+	{
+		
+		frame1 = new JFrame("Sales Order Search Result");
+		frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame1.setLayout(new BorderLayout());
+		DefaultTableModel model = new DefaultTableModel();
+		model.setColumnIdentifiers(columnNames);
+		table = new JTable();
+		table.setModel(model);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		table.setFillsViewportHeight(true);
+		JScrollPane scroll = new JScrollPane(table);
+		scroll.setHorizontalScrollBarPolicy
+	}
 }
